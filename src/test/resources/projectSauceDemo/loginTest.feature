@@ -19,7 +19,7 @@ Feature: Sauce Demo site
     Then I will remain at the Login page
     And I will get an error message <error>
 
-    @login
+    @login @fixthis
     Examples:
     |username| password | error|
     |standard_user | test | Epic sadface: Username and password do not match any user in this service|
@@ -27,7 +27,7 @@ Feature: Sauce Demo site
     |locked_out_user | test | Epic sadface: Username and password do not match any user in this service|
     |problem_user | test | Epic sadface: Username and password do not match any user in this service|
 
-   @untested
+  @logout
   Scenario: Logged in user can logout
     Given I logged in as Standard_User
     When I press logout
@@ -37,3 +37,44 @@ Feature: Sauce Demo site
   Scenario: Inventory has 6 items
     Given I logged in as Standard_User
     Then I will see 6 inventory items
+
+  Scenario: Test
+    Given I logged in as Standard_User
+    Then Test
+
+  @addingItems @shoppingCart
+  Scenario: Adding 4 item(s) will increase the cart by 4
+    Given I logged in as Standard_User
+    When I added 4 item(s)
+    Then there will be 4 item(s) in the cart
+
+  @addingItems @shoppingCart
+  Scenario: After adding an item, I can remove it on the same page
+    Given I logged in as Standard_User
+    When I added 1 item(s)
+    Then I can see the item has 1 remove item
+
+  @untested
+  Scenario: Removing 2 item(s) will decrease the cart by 2
+    Given I logged in as Standard_User
+    When I added 4 item(s)
+    And I remove 2 item(s)
+    Then there will be 2 item(s) in the cart
+
+    @donttest
+  Scenario: I can filter items
+    Given I logged in as Standard_User
+    When I filter to <option>
+    Then <option> is selected
+    And Result is passed
+      |option|Result|
+      |Name (A to Z)|name asc|
+      |Name (Z to A)|name desc|
+      |Price (low to high)|price asc|
+      |Price (high to low)|price desc|
+  @donttest
+  Scenario: Items added are visible in my cart
+  @donttest
+  Scenario: Clicking on Item will bring me to the item's page
+  @donttest
+  Scenario:

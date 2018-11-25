@@ -9,7 +9,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
-
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -34,13 +33,9 @@ public class StepsSauceDemo {
     }
     @After
     public void cleanUp(){
-        driver.manage().deleteAllCookies();
-        System.out.println("===================================");
-       // driver.close();
+        driver.manage().deleteAllCookies();// driver.close();
         driver.quit();
     }
-
-
 
     @Given("^I am a (.*)$")
     public void i_am_a_User(String user) {
@@ -63,8 +58,11 @@ public class StepsSauceDemo {
     @When("^press the LOGIN button$")
     public void press_the_Login_button() {
         LoginSauceDemo.clickLogin();
-        inventoryPage = new InventorySauceDemo(driver);
-        assertTrue(inventoryPage.isInitialised());
+        if(!driver.getCurrentUrl().equalsIgnoreCase(loginPage.getLoginPage())){
+            inventoryPage = new InventorySauceDemo(driver);
+            assertTrue(inventoryPage.isInitialised());
+        }
+
     }
 
     @Then("^I will login to the inventory page$")
@@ -104,68 +102,47 @@ public class StepsSauceDemo {
     @When("^I press logout$")
     public void i_press_logout() {
         inventoryPage.clickLogout();
-
     }
 
     @Then("^I will see (\\d+) inventory items$")
     public void i_will_see_inventory_items(int arg1) {
+        //inventoryPage.printList();
+        //System.out.println(inventoryPage.findItemIndex("Sauce Labs Onesie"));
+        //System.out.println(inventoryPage.getDescriptionFor("Test.allTheThings() T-Shirt (Red)"));
+        System.out.println(inventoryPage.getPriceFor("Test.allTheThings() T-Shirt (Red)"));
 
-        // This shows all 6 items along with item name, description and price
-        //List<WebElement> inventory  = driver.findElementsByXPath("//*[@id='inventory_container']//div[@class='inventory_list']/child::div");
-        List<WebElement> inventory  = driver.findElements(By.xpath("//*[@id='inventory_container']/div[@class='inventory_list']/child::div"));
-        for (WebElement we: inventory){
-            System.out.println(we.getText());
-        }
-
-        /* This shows all 6 item's name
-        List<WebElement> inventory  = driver.findElementsByXPath("//*[@id='inventory_container']//div[@class='inventory_list']/child::div//div[@class='inventory_item_name']");
-        for (WebElement we: inventory){
-            System.out.println(we.getText()+"------------------------------");
-        }
-        */
-        /* This shows all 6 item's description
-        List<WebElement> inventory  = driver.findElementsByXPath("//*[@id='inventory_container']//div[@class='inventory_list']/child::div//div[@class='inventory_item_desc']");
-        for (WebElement we: inventory){
-            System.out.println(we.getText()+"------------------------------");
-        }
-        */
-        /*
-        List<WebElement> inventory  = driver.findElementsByXPath("//*[@id='inventory_container']//div[@class='inventory_list']/child::div//div[@class='inventory_item_price']");
-        for (WebElement we: inventory){
-            System.out.println(we.getText()+"------------------------------");
-        }
-        */
+    }
+    @Then ("Test$")
+    public void test(){
 
 /*
-        List<WebElement> inventory = driver.findElementsByXPath("//*[@id='inventory_container']//div[@class='inventory_list']/child::div");
-        //List<WebElement> inventory = driver.findElementsByXPath("//*[@id='inventory_container']//div[@class='inventory_list']/child::div//div[@class='inventory_item_name']");
-        //WebElement inventory  = driver.findElementByXPath("//*[@id='inventory_container']/child::div");
-        //System.out.println(inventory.getText());
-
-//        for (WebElement we : inventory) {
-//            System.out.println(we.getText()+"------------------------------");
-///*
-//            System.out.println(we.findElement(By.xpath("//div[@class='inventory_item_name']")).getText());
-//            System.out.println(we.findElement(By.xpath("//div[@class='inventory_item_desc']")).getText());
-//            System.out.println(we.findElement(By.xpath("//div[@class='inventory_item_price']")).getText());
-//*
-//        }
-        System.out.println(inventory.get(3).getText());
-        System.out.println(inventory.get(3).toString());
-
-//        System.out.println(inventory.get(3).findElement(By.xpath("//div[@class='inventory_item_name']")).getText()+"--1");
-//        System.out.println(inventory.get(3).findElement(By.xpath("//div[@class='inventory_item_desc']")).getText()+"--2");
-//        System.out.println(inventory.get(3).findElement(By.xpath("//div[@class='inventory_item_price']")).getText()+"--3");
-        System.out.println(inventory.contains("Sauce Labs Bike Light"));
+        List<WebElement> elements = driver.findElements(By.xpath("//*[@data-icon]"));
+        for(WebElement el:elements)
+        {
+            System.out.println(el.getText() + "=Text: Class=" +el.getAttribute("shopping=cart"));
+        }
 */
     }
 
+    @When("^I added (\\d+) item\\(s\\)$")
+    public void i_added_item_s(int x)   {
+        inventoryPage.addXItems(x);
+    }
 
-/*
-        Iterator<WebElement> itr = inventory.iterator();
-        while(itr.hasNext()) {
-            System.out.println(itr.next());
-        }
-*/
+    @Then("^there will be (\\d+) item\\(s\\) in the cart$")
+    public void there_will_be_items_in_the_cart(int x)  {
+        assertEquals(x, inventoryPage.getItemsInCart());
+
+    }
+    @Then("^I can see the item has (\\d+) remove item$")
+    public void i_can_see_the_items_has_remove_item(int x)   {
+        assertTrue(inventoryPage.removeButtonAvailable());
+    }
+    @When("^I remove (\\d+) item\\(s\\)$")
+    public void i_remove_items(int x)   {
+        inventoryPage.removeXItems(x);
+
+    }
+
 
 }
