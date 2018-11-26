@@ -5,6 +5,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 
+@SuppressWarnings("WeakerAccess")
 public class LoginSauceDemo extends PageObject {
 
     @FindBy(xpath = "//*[@placeholder = 'Username']")
@@ -19,7 +20,6 @@ public class LoginSauceDemo extends PageObject {
     @FindBy(xpath = "//*[@data-test = 'error']")
     private WebElement errorMessage;
 
-    private WebDriver driver;
     private String url = "https://www.saucedemo.com/index.html";
 
     public LoginSauceDemo(WebDriver driver) {

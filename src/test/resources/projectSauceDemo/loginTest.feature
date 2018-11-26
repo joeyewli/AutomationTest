@@ -59,24 +59,25 @@ Feature: Sauce Demo site
     Then there will be 2 item(s) in the cart
 
 
-
+  @untested
   Scenario: Test
     Given I logged in as Standard_User
     Then Test
 
-    @donttest @untested
+    @donttest
   Scenario Outline: I can filter items
     Given I logged in as Standard_User
     When I filter to <option>
     Then <option> - filter option is selected
     And <Result> is passed
 
+
     Examples:
       |option|Result|
       |Name (A to Z)|name asc|
       |Name (Z to A)|name desc|
       |Price (low to high)|price asc|
-      |Price (high to low)|price desc|
+     |Price (high to low)|price desc|
   @donttest
   Scenario: Items added are visible in my cart
   @donttest

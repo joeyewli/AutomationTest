@@ -162,8 +162,12 @@ public class StepsSauceDemo {
 
     @Then("Test$")
     public void test() {
+        //inventoryPage.printList();
+        //inventoryPage.addXItems(6);
+        //inventoryPage.removeXItems(6);
         inventoryPage.selectFilter();
-        assertTrue(inventoryPage.isInventoryNamesDesc());
+
+
         /*
         driver.get("https://sdlsit.appiancloud.com");
         driver.findElement(By.xpath("//*[@id=\"un\"]")).sendKeys("JoeLi.PM@sdl.com");
