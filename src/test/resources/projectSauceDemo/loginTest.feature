@@ -38,9 +38,6 @@ Feature: Sauce Demo site
     Given I logged in as Standard_User
     Then I will see 6 inventory items
 
-  Scenario: Test
-    Given I logged in as Standard_User
-    Then Test
 
   @addingItems @shoppingCart
   Scenario: Adding 4 item(s) will increase the cart by 4
@@ -54,19 +51,27 @@ Feature: Sauce Demo site
     When I added 1 item(s)
     Then I can see the item has 1 remove item
 
-  @untested
+  @addingItems @shoppingCart @removingItems
   Scenario: Removing 2 item(s) will decrease the cart by 2
     Given I logged in as Standard_User
     When I added 4 item(s)
     And I remove 2 item(s)
     Then there will be 2 item(s) in the cart
 
-    @donttest
-  Scenario: I can filter items
+
+
+  Scenario: Test
+    Given I logged in as Standard_User
+    Then Test
+
+    @donttest @untested
+  Scenario Outline: I can filter items
     Given I logged in as Standard_User
     When I filter to <option>
-    Then <option> is selected
-    And Result is passed
+    Then <option> - filter option is selected
+    And <Result> is passed
+
+    Examples:
       |option|Result|
       |Name (A to Z)|name asc|
       |Name (Z to A)|name desc|

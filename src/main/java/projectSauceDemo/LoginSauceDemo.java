@@ -51,6 +51,7 @@ public class LoginSauceDemo extends PageObject {
     public String getErrorMessage() {
         return errorMessage.getText();
     }
+
 }
 
 
