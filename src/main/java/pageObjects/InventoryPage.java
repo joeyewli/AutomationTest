@@ -305,5 +305,4 @@ public class InventoryPage extends PageObject {
         }
         return true;
     }
-
 }

@@ -8,9 +8,10 @@ import org.junit.runner.RunWith;
 // @CucumberOptions(plugin = {"pretty"})
 //@CucumberOptions(features ="src/test/resources/projectSauceDemo/loginTest.feature")
 @CucumberOptions(
-        features = {"src/test/resources/Feature/loginTest.feature"}
+        features = {"src/test/resources/Feature"}
+        ,plugin = "pretty"
         ,glue = "stepDefinitions"
-        //,tags = "@logout")
+//        ,tags = "@logout")
         ,tags = {"~@donttest"})
 public class RunCucumberTest {
 }

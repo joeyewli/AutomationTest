@@ -16,29 +16,24 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-public class StepsSauceDemo {
+public class LoginTest extends FunctionalTest {
     private LoginPage loginPage;
     private InventoryPage inventoryPage;
-    protected static WebDriver driver;
+    protected WebDriver driver = getDriver();
     private String user;
     private String website;
     private WebDriverWait wait;
 
-
     @Before
-    public void setUp() {
-        System.out.println("--------------------------------SET UP -------------------------");
-        System.setProperty("webdriver.gecko.driver", "C:\\Users\\joeye\\Documents\\Automation Test\\geckodriver.exe");
-        System.setProperty(FirefoxDriver.SystemProperty.DRIVER_USE_MARIONETTE, "true");
-        System.setProperty(FirefoxDriver.SystemProperty.BROWSER_LOGFILE, "/dev/null");
-        driver = new FirefoxDriver();
-        driver.manage().timeouts().implicitlyWait(10, SECONDS);
-    }
+    public void setup(){
+        System.out.println("--------------------login SET UP-------------------");
 
-    @After
-    public void cleanUp() {
-        driver.manage().deleteAllCookies();// driver.close();
-        driver.quit();
+    }
+    @After()
+    public void cleanUp2() {
+        System.out.println("--------------------Login CLEAN UP-------------------");
+        //driver.manage().deleteAllCookies();
+        // driver.quit();
     }
 
     @Given("^I am a (.*)$")
@@ -114,48 +109,6 @@ public class StepsSauceDemo {
         loginPage = inventoryPage.clickLogout();
     }
 
-    @Then("^I will see (\\d+) inventory items$")
-    public void i_will_see_inventory_items(int arg1) {
-        //inventoryPage.printList();
-        //System.out.println(inventoryPage.findItemIndex("Sauce Labs Onesie"));
-        //System.out.println(inventoryPage.getDescriptionFor("Test.allTheThings() T-Shirt (Red)"));
-        System.out.println(inventoryPage.getPriceFor("Test.allTheThings() T-Shirt (Red)"));
-
-    }
-
-    @When("^I filter to (.*)$")
-    public void i_filter_to(String filterOption) {
-        inventoryPage.selectFilter(filterOption);
-    }
-
-    @Then("^(.*) - filter option is selected$")
-    public void filter_option_is_selected(String filterOption) {
-        // assertEquals(filterOption,inventoryPage.getFilterSelection());
-    }
-
-    @Then("^(.*) is passed$")
-    public void result_is_passed(String expectedResult) {
-
-        if ("name asc".equals(expectedResult)) {
-            assertTrue(inventoryPage.isInventoryNamesAsc());
-        } else if ("name desc".equals(expectedResult)) {
-            assertTrue(inventoryPage.isInventoryNamesDesc());
-        } else if ("price asc".equals(expectedResult)) {
-            assertTrue(inventoryPage.isInventoryPriceAsc());
-        } else if ("price desc".equals(expectedResult)) {
-            assertTrue(inventoryPage.isInventoryPriceDesc());
-        } else {
-            System.out.println("Result need to be added to method");
-        /*
-        switch(expectedResult){
-            case "name asc": assertTrue(inventoryPage.isInventoryNamesAsc()); break;
-            case "name desc": assertTrue(inventoryPage.isInventoryNamesDesc()); break;
-            case "price asc": assertTrue(inventoryPage.isInventoryPriceAsc()); break;
-            case "price desc": assertTrue(inventoryPage.isInventoryPriceDesc()); break;
-            default: System.out.println("Result need to be added to method"); break;
-            */
-        }
-    }
 
     @Then("Test$")
     public void test() {
@@ -197,27 +150,6 @@ public class StepsSauceDemo {
 */
     }
 
-    @When("^I added (\\d+) item\\(s\\)$")
-    public void i_added_item_s(int x) {
-        inventoryPage.addXItems(x);
-    }
-
-    @Then("^there will be (\\d+) item\\(s\\) in the cart$")
-    public void there_will_be_items_in_the_cart(int x) {
-        assertEquals(x, inventoryPage.getItemsInCart());
-
-    }
-
-    @Then("^I can see the item has (\\d+) remove item$")
-    public void i_can_see_the_items_has_remove_item(int x) {
-        assertTrue(inventoryPage.removeButtonAvailable());
-    }
-
-    @When("^I remove (\\d+) item\\(s\\)$")
-    public void i_remove_items(int x) {
-        inventoryPage.removeXItems(x);
-
-    }
 
 
 }
