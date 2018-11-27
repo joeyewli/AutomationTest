@@ -1,5 +1,3 @@
-package projectSauceDemo;
-
 import org.openqa.selenium.firefox.FirefoxDriver;
 
 public class LoginDefinitions {

@@ -10,6 +10,7 @@ import org.junit.runner.RunWith;
 @CucumberOptions(
         features = {"src/test/resources/Feature/loginTest.feature"}
         ,glue = "stepDefinitions"
+        //,tags = "@logout")
         ,tags = {"~@donttest"})
 public class RunCucumberTest {
 }

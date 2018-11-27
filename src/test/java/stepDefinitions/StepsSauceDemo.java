@@ -102,11 +102,11 @@ public class StepsSauceDemo {
     public void i_logged_in_as_Standard_User() {
         i_am_on_the_Login_page();
         loginPage.setUsername("standard_user")
-                .setPassword("secret_sauce")
-                .clickLogin();
+                .setPassword("secret_sauce");
+        press_the_Login_button();
+        assertTrue(inventoryPage.isInitialised());
 //        i_enter_my_username("standard_user");
 //        i_enter_my_password("secret_sauce");
-//        press_the_Login_button();
     }
 
     @When("^I press logout$")

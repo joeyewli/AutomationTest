@@ -84,6 +84,7 @@ public class InventoryPage extends PageObject {
      * Log out button is only visible when user opened the menu tab by clicking on it
      */
     public LoginPage clickLogout() {
+        System.out.println("TEST TEST TEST");
         clickMenuTab();
         logout.click();
         return new LoginPage(driver);
