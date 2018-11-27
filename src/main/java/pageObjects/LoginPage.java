@@ -1,4 +1,4 @@
-package projectSauceDemo;
+package pageObjects;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -6,7 +6,7 @@ import org.openqa.selenium.support.FindBy;
 
 
 @SuppressWarnings("WeakerAccess")
-public class LoginSauceDemo extends PageObject {
+public class LoginPage extends PageObject {
 
     @FindBy(xpath = "//*[@placeholder = 'Username']")
     private WebElement username;
@@ -15,14 +15,14 @@ public class LoginSauceDemo extends PageObject {
     private WebElement password;
 
     @FindBy(xpath = "//*[@value = 'LOGIN']")
-    private static WebElement login;
+    private WebElement login;
 
     @FindBy(xpath = "//*[@data-test = 'error']")
     private WebElement errorMessage;
 
     private String url = "https://www.saucedemo.com/index.html";
 
-    public LoginSauceDemo(WebDriver driver) {
+    public LoginPage(WebDriver driver) {
         super(driver);
     }
 
@@ -30,22 +30,25 @@ public class LoginSauceDemo extends PageObject {
         return url;
     }
 
-    public void setUsername(String un) {
+    public LoginPage setUsername(String un) {
         username.clear();
         username.sendKeys(un);
+        return new LoginPage(driver);
     }
 
-    public void setPassword(String pw) {
+    public LoginPage setPassword(String pw) {
+        password.clear();
         password.sendKeys(pw);
+        return new LoginPage(driver);
     }
 
-    public static void clickLogin() {
+    public InventoryPage clickLogin() {
         login.click();
-      //  return new InventorySauceDemo(driver);
+        return new InventoryPage(driver);
     }
-
-    public String getTitle() {
-        return driver.getTitle();
+    public LoginPage clickLoginExpectingFailure() {
+        login.click();
+        return new LoginPage(driver);
     }
 
     public String getErrorMessage() {

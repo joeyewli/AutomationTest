@@ -1,4 +1,4 @@
-package projectSauceDemo;
+package pageObjects;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -10,7 +10,7 @@ import java.util.List;
 import static java.lang.Integer.parseInt;
 
 @SuppressWarnings("ALL")
-public class InventorySauceDemo extends PageObject {
+public class InventoryPage extends PageObject {
 
     @FindBy(className = "bm-burger-button")
     private WebElement menu;
@@ -71,21 +71,22 @@ public class InventorySauceDemo extends PageObject {
 
     private String url = "https://www.saucedemo.com/inventory.html";
 
-    public InventorySauceDemo(WebDriver driver) {
+    public InventoryPage(WebDriver driver) {
         super(driver);
     }
 
-    public void clickMenuTab() {
+    public InventoryPage clickMenuTab() {
         menu.click();
+        return new InventoryPage(driver);
     }
 
     /**
      * Log out button is only visible when user opened the menu tab by clicking on it
      */
-    public void clickLogout() {
+    public LoginPage clickLogout() {
         clickMenuTab();
         logout.click();
-        //return new LoginSauceDemo(driver);
+        return new LoginPage(driver);
     }
 
     public String getInventoryPage() {
@@ -99,10 +100,11 @@ public class InventorySauceDemo extends PageObject {
     /**
      * TODO: For testing purposes, can be removed
      */
-    public void printList() {
+    public InventoryPage printList() {
         for (WebElement we : inventoryItemNames) {
             System.out.println(">" + we.getText() + "<");
         }
+        return new InventoryPage(driver);
     }
 
     /**
@@ -145,7 +147,7 @@ public class InventorySauceDemo extends PageObject {
     /**
      * @param item = index value to find cart
      */
-    public void addItemToCart(String item) {
+    public InventoryPage addItemToCart(String item) {
         try {
             // System.out.println(inventoryAddToCart.get(findItemIndex(item)).getText());
             inventoryAddToCart.get(findItemIndex(item)).click();
@@ -153,14 +155,16 @@ public class InventorySauceDemo extends PageObject {
             //  System.out.println(inventoryRemoveFromCart.get(findItemIndex(item)).getText());
         } catch (IndexOutOfBoundsException e) {
         }
+        return new InventoryPage(driver);
     }
 
     //This only appears if added to cart already
-    public void removeItemFromCart(String item) {
+    public InventoryPage removeItemFromCart(String item) {
         try {
             inventoryRemoveFromCart.get(findItemIndex(item)).click();
         } catch (IndexOutOfBoundsException e) {
         }
+        return new InventoryPage(driver);
     }
 
     public int getItemsInCart() {
@@ -180,13 +184,14 @@ public class InventorySauceDemo extends PageObject {
      *
      * @param x = amount of items to remove
      */
-    public void addXItems(int x) {
+    public InventoryPage addXItems(int x) {
         // TODO throw exception
         // x must be 6 items or below as there are only 6 items for this site
         // System.out.println("===========Number: "+ inventoryAddToCart.size());
         for (int i = 0; i < x; i++) {
             inventoryAddToCart.get(0).click();
         }
+        return new InventoryPage(driver);
     }
 
     /**
@@ -194,13 +199,14 @@ public class InventorySauceDemo extends PageObject {
      *
      * @param x = number of items to remove
      */
-    public void removeXItems(int x) {
+    public InventoryPage removeXItems(int x) {
         //TODO throw exception
         // x must be 6 items or below as there are only 6 items for this site
         // x can't be higher than the current "remove" buttons
         for (int i = 0; i < x; i++) {
             inventoryRemoveFromCart.get(0).click();
         }
+        return new InventoryPage(driver);
     }
 
 
@@ -208,7 +214,7 @@ public class InventorySauceDemo extends PageObject {
      * Select by click on Web elements - require more initialisation than Select functionality
      * More work needed to select by filter option,, harder to manage when filter options are changed.
      */
-    public void selectFilter() {
+    public InventoryPage selectFilter() {
         filter.click();
         nameAsc.click();
         filter.click();
@@ -216,6 +222,7 @@ public class InventorySauceDemo extends PageObject {
         filter.click();
         priceAsc.click();
         priceDesc.click();
+        return new InventoryPage(driver);
     }
 
     /**
@@ -225,10 +232,11 @@ public class InventorySauceDemo extends PageObject {
      *
      * @param filterOption = product filter dropdown list options
      */
-    public void selectFilter(String filterOption) {
+    public InventoryPage selectFilter(String filterOption) {
         //TODO need to throw nosuchElementException incase user enter a invalid filter option
         Select dropdownFilter = new Select(filter);
         dropdownFilter.selectByVisibleText(filterOption);
+        return new InventoryPage(driver);
     }
 
 

@@ -1,30 +1,24 @@
-package projectSauceDemo;
+package stepDefinitions;
 
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import pageObjects.InventoryPage;
+import pageObjects.LoginPage;
 
-import java.security.Key;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class StepsSauceDemo {
-    private LoginSauceDemo loginPage;
-    private InventorySauceDemo inventoryPage;
+    private LoginPage loginPage;
+    private InventoryPage inventoryPage;
     protected static WebDriver driver;
     private String user;
     private String website;
@@ -43,8 +37,8 @@ public class StepsSauceDemo {
 
     @After
     public void cleanUp() {
-        // driver.manage().deleteAllCookies();// driver.close();
-        // driver.quit();
+        driver.manage().deleteAllCookies();// driver.close();
+        driver.quit();
     }
 
     @Given("^I am a (.*)$")
@@ -54,8 +48,8 @@ public class StepsSauceDemo {
 
     @Given("^I am on the Login page$")
     public void i_am_on_the_Login_page() {
-        loginPage = new LoginSauceDemo(driver);
-        driver.get(loginPage.getLoginPage());
+        loginPage = new LoginPage(driver);
+        loginPage.navigateToHomePage();
     }
 
     @When("^I enter my username (.*)$")
@@ -70,14 +64,14 @@ public class StepsSauceDemo {
 
     @When("^press the LOGIN button$")
     public void press_the_Login_button() {
-        LoginSauceDemo.clickLogin();
-        if (!driver.getCurrentUrl().equalsIgnoreCase(loginPage.getLoginPage())) {
-            inventoryPage = new InventorySauceDemo(driver);
-            assertTrue(inventoryPage.isInitialised());
-        }
-
+        inventoryPage = loginPage.clickLogin();
+        assertTrue(inventoryPage.isInitialised());
     }
 
+    @When("^press the LOGIN button expecting failure$")
+    public void press_the_Login_button_expecting_failure() {
+        loginPage.clickLoginExpectingFailure();
+    }
     @Then("^I will login to the inventory page$")
     public void i_will_login_to_the_inventory_Page() {
         assertEquals(inventoryPage.getInventoryPage(), driver.getCurrentUrl());
@@ -107,14 +101,17 @@ public class StepsSauceDemo {
     @Given("^I logged in as Standard_User$")
     public void i_logged_in_as_Standard_User() {
         i_am_on_the_Login_page();
-        i_enter_my_username("standard_user");
-        i_enter_my_password("secret_sauce");
-        press_the_Login_button();
+        loginPage.setUsername("standard_user")
+                .setPassword("secret_sauce")
+                .clickLogin();
+//        i_enter_my_username("standard_user");
+//        i_enter_my_password("secret_sauce");
+//        press_the_Login_button();
     }
 
     @When("^I press logout$")
     public void i_press_logout() {
-        inventoryPage.clickLogout();
+        loginPage = inventoryPage.clickLogout();
     }
 
     @Then("^I will see (\\d+) inventory items$")

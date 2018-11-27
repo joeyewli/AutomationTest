@@ -15,7 +15,7 @@ Feature: Sauce Demo site
     And I am on the Login page
     When I enter my username <username>
     And I enter my password <password>
-    And press the LOGIN button
+    And press the LOGIN button expecting failure
     Then I will remain at the Login page
     And I will get an error message <error>
 
